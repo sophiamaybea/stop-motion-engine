@@ -1,0 +1,44 @@
+# External engines are NOT vendored. The project calls them through adapters.
+# Pin revisions in your local deployment once validated.
+
+[comfyui]
+url = "https://github.com/Comfy-Org/ComfyUI"
+role = "local image workflow renderer"
+bundled = false
+license = "verify upstream at selected revision"
+
+[comfy_mcp]
+url = "https://github.com/Comfy-Org/comfy-mcp"
+role = "optional external ComfyUI MCP; this repo also exposes its own MCP"
+bundled = false
+license = "verify upstream at selected revision"
+
+[controlnet_aux]
+url = "https://github.com/Fannovel16/comfyui_controlnet_aux"
+role = "DWPose/OpenPose preprocessing for ComfyUI"
+bundled = false
+license = "verify upstream at selected revision"
+
+[dwpose]
+url = "https://github.com/IDEA-Research/DWPose"
+role = "whole-body pose estimation"
+bundled = false
+license = "Apache-2.0"
+
+[mediapipe]
+url = "https://github.com/google-ai-edge/mediapipe"
+role = "face landmarks, blendshapes and head transform"
+bundled = false
+license = "Apache-2.0"
+
+[practical_rife]
+url = "https://github.com/hzwer/Practical-RIFE"
+role = "frame interpolation"
+bundled = false
+license = "MIT"
+
+[ffmpeg]
+url = "https://ffmpeg.org/"
+role = "decode and encode"
+bundled = false
+license = "see upstream build configuration"

@@ -1,88 +1,144 @@
-# Stop Motion Engine
+# Stop Motion Engine / Performance Film
 
-A small bidirectional engine.
+A local-first engine for going both directions:
 
-**Forward.** Discrete stills become a stop-motion clip.
-
-**Reverse.** A video is treated as if a stop-motion artist shot it. The engine recovers the *cells* — holds punctuated by ticks — and writes `MOTION_SCORE.json`.
-
-The two directions share one unit. A cell is not a frame and not a shot in the film sense. It is the stretch of time where the world did not tick.
-
-```
-stills  --compose-->  video
-video   --reverse-->  cells + MOTION_SCORE.json
-stills  --reverse-->  cells          (same detector, no container)
+```text
+stills -> stop motion
+video  -> motion cells
+video  -> structured body + facial performance -> target frames -> film
 ```
 
-This is the same operation run backwards. Forward you *choose* the ticks. Reverse you *find* them.
+The rule is **measure first, generate second**. A video model is never asked to guess an entire dance. The source performance is converted into an editable intermediate representation; the target person can then be rendered one constrained frame at a time; interpolation happens last.
 
-## Why this is not pose tracking
+## v0.2
 
-Dance / joint analyzers ask *what the body is doing*. This engine asks *when the picture changed enough to count as a new drawing*. That is the stop-motion question. Live-action becomes a stepped score. True stop-motion should nearly round-trip.
+This branch adds:
+
+- the existing bidirectional stop-motion compose/reverse engine
+- `MOTION_SCORE.json` picture-change analysis
+- canonical `PERFORMANCE.json`
+- adaptive keyframe selection using motion, pose change and facial-expression change
+- MediaPipe Face Landmarker support for landmarks, blendshapes, transform matrix and head pose
+- DWPose/OpenPose-compatible JSON input for body/hands
+- deterministic proportion-aware 2D skeletal retargeting
+- canonical editable project layout
+- local ComfyUI queue adapter
+- Practical-RIFE interpolation wrapper
+- FFmpeg frame assembly
+- a single MCP server for agent orchestration
+
+Third-party engines are **not vendored** into the repo. They sit behind adapters, so the renderer or detector can be replaced without changing the performance representation.
 
 ## Install
 
-Needs Python 3.10+, numpy, Pillow, and `ffmpeg` / `ffprobe` on PATH.
+Core:
 
 ```bash
 pip install -e .
-# or
-PYTHONPATH=src python -m stop_motion_engine demo -o out/demo
 ```
 
-## Commands
+Performance extraction + MCP:
 
 ```bash
-# stills → mp4 at 12 fps (classic stop-motion cadence)
-python -m stop_motion_engine compose path/to/frames -o out/film.mp4 --fps 12 --onion out/onion.jpg
-
-# video → recovered cells
-python -m stop_motion_engine reverse path/to/clip.mp4 -o out/reverse
-
-# synthetic bounce that proves the round trip
-python -m stop_motion_engine demo -o out/demo
+pip install -e '.[performance,mcp]'
 ```
 
-`out/reverse/` contains:
+Or run:
 
-- `MOTION_SCORE.json` — cells, energies, threshold
-- `cells/` — one still per recovered hold (the drawing you would have shot)
-
-## MOTION_SCORE schema (v1)
-
-```json
-{
-  "schema": "stop-motion-engine.motion_score.v1",
-  "direction": "reverse",
-  "fps": 12.0,
-  "frame_count": 24,
-  "cell_count": 12,
-  "cells": [
-    {
-      "index": 0,
-      "frame_start": 0,
-      "frame_end": 1,
-      "t0": 0.0,
-      "t1": 0.1667,
-      "hold_frames": 2,
-      "mean_energy": 0.4,
-      "peak_energy": 0.6,
-      "change_ratio": 0.08,
-      "bbox": [48, 80, 96, 128],
-      "kind": "hold"
-    }
-  ]
-}
+```bash
+./install.sh
+performance-film doctor
 ```
 
-Energy is mean absolute luminance difference between adjacent frames. A tick fires when energy clears an adaptive floor (median-cluster of holds vs tail of jumps) and a small fraction of pixels actually moved. The bbox is the changed region on that tick.
+FFmpeg/ffprobe must be on PATH.
 
-## Desk
+## Analyse a performance
 
-Engineering desk. Principal: `engineering-technology`. Nearby Stage hand `youtube-joint-frame-analyzer` owns body joints; this engine owns discrete picture-change. Do not merge them.
+```bash
+performance-film project-init projects/dance-01 --source source.mp4
 
-GitHub: https://github.com/sophiamaybea/stop-motion-engine
+performance-film analyse-performance source.mp4 \
+  -o projects/dance-01 \
+  --face-model models/face_landmarker.task \
+  --pose-json poses/source
+```
 
-## License
+The pose directory is OpenPose-compatible JSON, so DWPose/OpenPose/ComfyUI preprocessors can feed the same boundary.
 
-MIT.
+Outputs include:
+
+```text
+analysis/MOTION_SCORE.json
+analysis/KEYFRAMES.json
+analysis/PERFORMANCE.json
+analysis/cells/
+source/frames/
+```
+
+## Stop motion
+
+```bash
+performance-film assemble projects/dance-01/renders/accepted \
+  -o projects/dance-01/exports/stopmotion.mp4 --fps 12
+```
+
+Existing commands remain:
+
+```bash
+performance-film compose frames/ -o out/stop.mp4 --fps 12
+performance-film reverse clip.mp4 -o out/reverse --keep-frames
+```
+
+## Smooth to continuous film
+
+Practical-RIFE is external:
+
+```bash
+export RIFE_DIR=/path/to/Practical-RIFE
+performance-film smooth projects/dance-01/exports/stopmotion.mp4 \
+  -o projects/dance-01/exports/film.mp4 --multi 2
+```
+
+It can also receive a numerically named PNG directory.
+
+## MCP
+
+```bash
+performance-film serve-mcp
+```
+
+Current MCP tools:
+
+- `environment_status`
+- `create_project`
+- `analyse_video`
+- `assemble_stopmotion`
+- `queue_comfy_workflow`
+
+The calling agent orchestrates the pipeline; expensive pose, face, rendering and interpolation work stays local.
+
+## Architecture
+
+See `docs/ARCHITECTURE.md`.
+
+The engine separates:
+
+1. **Identity** — face, body proportions, hair, outfit.
+2. **Scene** — camera, environment, lens, lighting.
+3. **Performance** — pose, hands, head, gaze, expression and timing.
+
+Only Performance should normally change from frame to frame.
+
+## Intended local stack
+
+- DWPose / OpenPose-compatible preprocessing
+- Google MediaPipe Face Landmarker
+- ComfyUI
+- Practical-RIFE
+- FFmpeg
+
+No paid image/video API is required by the architecture.
+
+## Licence
+
+MIT for this repository. External engines and models retain their own licences.

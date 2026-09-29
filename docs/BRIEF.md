@@ -190,3 +190,155 @@ The room does not mutate.
 Persist walls, floor, mirror, doors, windows, barre, furniture, lighting, architectural detail.
 
 Generate or reconstruct the background once, then composite the dancer into it. Do not regenerate the entire room every frame.
+
+---
+
+## 13. Frame generation is modular
+
+Each frame is generated from identity reference, body pose, facial expression, outfit state, environment, camera, previous-frame continuity, and next-frame movement target.
+
+Useful tools: ControlNet (pose / depth / edge), IPAdapter, InstantID, ComfyUI workflows, inpainting, pose-guided human generation.
+
+No single model solves everything. Isolate capabilities behind adapters.
+
+---
+
+## 14. Temporal continuity
+
+Frames are generated individually and must still be one sequence.
+
+Compare face, hair, clothing, proportions, background, lighting, camera, hands, feet, shadows, and reflections against neighbours.
+
+The current frame should see previous frame, current target, and next target.
+
+---
+
+## 15. Local repair
+
+Do not regenerate the film because frame 182 has a bad right hand.
+
+Identify the problem, preserve the rest of the frame, inpaint or regenerate the part, compare with 181 and 183, reinsert.
+
+Same path for face, foot, clothing, mirror, background, hair. Project folders already exist: `renders/raw`, `renders/accepted`, `renders/rejected`, `renders/repaired`.
+
+---
+
+## 16. Quality control
+
+Score separately. Do not collapse into one opaque number.
+
+- pose match vs reference
+- identity match vs locked face
+- temporal consistency vs neighbours
+- background consistency
+- garment consistency
+- face geometry / landmarks
+- hand anatomy
+- foot pose and contour
+- mirror consistency
+- scene / camera match
+
+Below-threshold frames enter the repair queue automatically. See `references/dance/reference-01/FRAME_ACCEPTANCE.md`.
+
+---
+
+## 17. Stop-motion render first
+
+Once frames are accepted, assemble them directly.
+
+The first output must remain readable as a frame sequence. Do not hide errors with motion blur or interpolation.
+
+First: clean stop-motion. Then, optionally: smoothed film.
+
+---
+
+## 18. Interpolation is optional and never choreography
+
+Practical-RIFE (or a replacement interpolator) may invent frames **between** approved stills.
+
+If interpolated frames distort hands, face, feet, limbs, mirrors, or clothing, reject them. Choreography comes only from approved keyframes.
+
+---
+
+## 19. This repo is the home
+
+`sophiamaybea/stop-motion-engine` is the orchestration layer.
+
+Do not start a second home for the same system.
+
+Sister repositories supply dance knowledge. Consume them as modules, packages, submodules, or imported datasets. Do not copy their logic into this tree.
+
+- `sophiamaybea/contemporary-studio-dance`
+- `sophiamaybea/big-gay-heart-contemporary`
+- `sophiamaybea/the-night-they-drove-old-dixie-down-routine`
+- `sophiamaybea/dixie-down-contemporary-jazz`
+
+See `docs/ECOSYSTEM.md`.
+
+---
+
+## 20. External systems are interfaces, not a pile
+
+Study useful ideas. Isolate one capability behind one adapter. Respect licences. Never paste proprietary implementations.
+
+FrameFold (`RainerBracharz/framefold`) is a **reference architecture only**: sample → motion/sharpness → rest detection → filter → dedupe → human review → stabilize → assemble. Do not copy its code.
+
+See `docs/ECOSYSTEM.md` and `config/dependencies.toml`.
+
+---
+
+## 21. Dance semantics, not only pixels
+
+Grow a dance-specific record beyond raw coordinates:
+
+```text
+movement: travelling arabesque
+support_leg: left
+working_leg: right
+working_leg_height: 72 degrees
+torso: forward diagonal
+head: left
+gaze: upper-left
+right_arm: extended
+left_arm: trailing
+dynamic: suspended
+musical_quality: delayed arrival
+transition: travelling turn
+```
+
+Geometry stays measurable. Language comes from the choreography labs when present.
+
+---
+
+## 22. Musical time
+
+Map frames to beats, subdivisions, accents, phrases, rests, syncopation, sustained notes.
+
+A movement happens in musical time, not only between video timestamps. Record Room / dance-routine-engine own the counted score. This engine stores the mapping, it does not become a second choreographer.
+
+---
+
+## 23. Human review
+
+The user inspects timeline, contact sheet, frame grid, pose overlay, and side-by-side original vs generated.
+
+They click a frame and say: regenerate; fix face / hand / foot; increase turnout; change expression; restore original pose; preserve everything except X.
+
+That triggers a local edit.
+
+---
+
+## 24. End goal
+
+A visual compiler for human movement:
+
+```text
+real performance
+  -> structured movement data
+  -> controlled photographic frames
+  -> moving performance
+```
+
+Preserve choreography, timing, identity, proportions, facial acting, clothing, camera, environment, mirror geometry, and artistic intent.
+
+**The approved frame sequence is the source of truth.**

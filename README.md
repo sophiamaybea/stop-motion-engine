@@ -1,6 +1,10 @@
 # Stop Motion Engine / Performance Film
 
-A local-first engine for going both directions:
+This is **not** an AI dance-video generator. It is a visual compiler for human movement: measure a real performance, describe each important state, generate constrained stills of a locked identity, verify and repair frame by frame, assemble stop motion, optionally interpolate.
+
+**The approved frame sequence is the source of truth.**
+
+Read `docs/BRIEF.md` before writing code or prompting a model. Architecture: `docs/ARCHITECTURE.md`. Sister repos and external adapters: `docs/ECOSYSTEM.md`.
 
 ```text
 stills -> stop motion
@@ -8,7 +12,7 @@ video  -> motion cells
 video  -> structured body + facial performance -> target frames -> film
 ```
 
-The rule is **measure first, generate second**. A video model is never asked to guess an entire dance. The source performance is converted into an editable intermediate representation; the target person can then be rendered one constrained frame at a time; interpolation happens last.
+The rule is **measure first, retarget second, generate third, interpolate last**. A video model is never asked to guess an entire dance.
 
 ## v0.2
 
@@ -119,7 +123,7 @@ The calling agent orchestrates the pipeline; expensive pose, face, rendering and
 
 ## Architecture
 
-See `docs/ARCHITECTURE.md`.
+See `docs/BRIEF.md` (why) and `docs/ARCHITECTURE.md` (how).
 
 The engine separates:
 
@@ -128,6 +132,8 @@ The engine separates:
 3. **Performance** — pose, hands, head, gaze, expression and timing.
 
 Only Performance should normally change from frame to frame.
+
+This repository is the single home for the system. Choreography labs and routine scores stay in their own repos and are consumed as modules. External tools sit behind adapters. FrameFold is a pipeline shape to study, not source to paste.
 
 ## Intended local stack
 

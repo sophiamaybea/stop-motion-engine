@@ -13,11 +13,13 @@ metadata:
 
 Use this skill when a reference performance must become an editable stop-motion sequence or be transferred to a target identity.
 
+This is not “make an AI dance video”. Read `docs/BRIEF.md`. The approved stills are the source of truth.
+
 ## Governing rule
 
 **Measure first. Retarget second. Generate third. Interpolate last.**
 
-Never ask a generative video model to infer a complex dance when the geometry and timing can be measured from the source video.
+Never ask a generative video model to infer a complex dance when the geometry and timing can be measured from the source video. Never ask a generative model to remember something the system can explicitly constrain.
 
 ## State separation
 
@@ -48,6 +50,10 @@ Do not replace expression with labels such as happy, sad or sexy. Preserve measu
 
 Run `performance-film serve-mcp`. Expensive frame/video operations remain local; Work, Grok or another agent should orchestrate tools rather than ingesting every frame.
 
+## Home repo
+
+`sophiamaybea/stop-motion-engine` is the orchestration layer. Do not start a sibling home. Sister dance repos and external systems are listed in `docs/ECOSYSTEM.md`.
+
 ## Third-party rule
 
-External repositories are engines, not source to paste into this repo. Keep them behind adapters and respect their licences. Never copy proprietary reference implementations into this project.
+External repositories are engines, not source to paste into this repo. Keep them behind adapters and respect their licences. Never copy proprietary reference implementations into this project. FrameFold is architecture-only.

@@ -11,7 +11,7 @@ def build_server():
     except ImportError as exc:
         raise RuntimeError("Install the MCP extra: pip install -e '.[mcp]'") from exc
 
-    from .adapters import ComfyUIClient, assemble_frames
+    from .adapters import ComfyUIClient, assemble_frames, run_rife
     from .analysis import analyse_performance
     from .doctor import doctor
     from .project import init_project
@@ -49,6 +49,17 @@ def build_server():
         workflow = json.loads(Path(workflow_json).read_text())
         prompt_id = ComfyUIClient(base_url).queue_workflow(workflow)
         return json.dumps({"prompt_id": prompt_id})
+
+    @mcp.tool()
+    def wait_comfy_workflow(prompt_id: str, base_url: str = "http://127.0.0.1:8188", timeout_s: float = 600) -> str:
+        """Wait for a queued local ComfyUI workflow and return its history record."""
+        return json.dumps(ComfyUIClient(base_url).wait(prompt_id, timeout_s=timeout_s), indent=2)
+
+    @mcp.tool()
+    def interpolate_film(source: str, output: str, rife_dir: str, multi: int = 2, fps: float = 0.0, scale: float = 1.0) -> str:
+        """Run local Practical-RIFE on a stop-motion video or numbered PNG folder."""
+        result = run_rife(Path(source), Path(output), Path(rife_dir), multi=multi, fps=(fps or None), scale=scale)
+        return str(result)
 
     return mcp
 

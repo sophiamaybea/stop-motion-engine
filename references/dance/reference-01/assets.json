@@ -1,0 +1,23 @@
+{
+  "schema": "performance-film.reference-assets.v1",
+  "reference_id": "dance-reference-01",
+  "drive_folder": {
+    "id": "1z63RLEHQZfI23qG_FGG3Ez39DB-M3snd",
+    "url": "https://drive.google.com/drive/folders/1z63RLEHQZfI23qG_FGG3Ez39DB-M3snd"
+  },
+  "source_segment": {"start_seconds": 17.0, "end_seconds": 69.6, "duration_seconds": 52.6},
+  "assets": {
+    "source_video": {"id":"1EUUtyNSA4510jTaYc--PevKJWGzY9NJt","url":"https://drive.google.com/file/d/1EUUtyNSA4510jTaYc--PevKJWGzY9NJt/view?usp=drivesdk"},
+    "stopmotion_6fps": {"id":"1vpcYQtlwp6BsSqhM-Foy2zZKXKXcrupZ","url":"https://drive.google.com/file/d/1vpcYQtlwp6BsSqhM-Foy2zZKXKXcrupZ/view?usp=drivesdk"},
+    "pose_atlas_01_12": {"id":"1fRHt1i7SJ5LtBozOndGBdWQp4RUAw3Sf","url":"https://drive.google.com/file/d/1fRHt1i7SJ5LtBozOndGBdWQp4RUAw3Sf/view?usp=drivesdk"},
+    "pose_atlas_13_23": {"id":"1O0qckAHzkmM9GdFSE62uWZXuRYTv2zO8","url":"https://drive.google.com/file/d/1O0qckAHzkmM9GdFSE62uWZXuRYTv2zO8/view?usp=drivesdk"},
+    "key_pose_contact_sheet": {"id":"1it0BenGdH6aW4s-MemVOLJ6dvXcf1A0n","url":"https://drive.google.com/file/d/1it0BenGdH6aW4s-MemVOLJ6dvXcf1A0n/view?usp=drivesdk"},
+    "movement_blueprint_json": {"id":"1eZ6_VrQ_Avv357psMdPEWMpTgxHWYWSO","url":"https://drive.google.com/file/d/1eZ6_VrQ_Avv357psMdPEWMpTgxHWYWSO/view?usp=drivesdk"},
+    "movement_blueprint_csv": {"id":"1eoJvNuCgw7k7PMoyn05NSYDms636sn-G","url":"https://drive.google.com/file/d/1eoJvNuCgw7k7PMoyn05NSYDms636sn-G/view?usp=drivesdk"},
+    "identity_full_body_mirror": {"id":"1SYMvEpAtCM5dm8swnDKg15oJF3p3xX0r","url":"https://drive.google.com/file/d/1SYMvEpAtCM5dm8swnDKg15oJF3p3xX0r/view?usp=drivesdk"},
+    "identity_face_master": {"id":"1ZYyfWYUY4unVVLlWcJNMCTLl3da2x138","url":"https://drive.google.com/file/d/1ZYyfWYUY4unVVLlWcJNMCTLl3da2x138/view?usp=drivesdk"},
+    "identity_expression_grid": {"id":"1rIY5kb3d5GwMIOR7mJRg6gGCQboepvpm","url":"https://drive.google.com/file/d/1rIY5kb3d5GwMIOR7mJRg6gGCQboepvpm/view?usp=drivesdk"},
+    "identity_technique_board": {"id":"1eqqywgueEMsaYnsHCkmU12aLW8nObH7O","url":"https://drive.google.com/file/d/1eqqywgueEMsaYnsHCkmU12aLW8nObH7O/view?usp=drivesdk"},
+    "dancelab_overlay": {"id":"1CfSxUIIwL47-R_ts54msiI9_rXDJUDld","url":"https://drive.google.com/file/d/1CfSxUIIwL47-R_ts54msiI9_rXDJUDld/view?usp=drivesdk"}
+  }
+}

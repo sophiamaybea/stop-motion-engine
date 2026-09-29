@@ -65,7 +65,7 @@ def select_keyframes(
         prev = scores[i - 1] if i else -1.0
         nxt = scores[i + 1] if i + 1 < len(scores) else -1.0
         event = row.contact_event >= 0.5 or row.reversal >= 0.5
-        if event or (scores[i] >= threshold and scores[i] >= prev and scores[i] >= nxt):
+        if event or (scores[i] > 0.0 and scores[i] >= threshold and scores[i] >= prev and scores[i] >= nxt):
             mandatory.add(row.frame)
 
     ordered = sorted(mandatory)

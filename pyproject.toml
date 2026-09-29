@@ -1,15 +1,21 @@
 [project]
 name = "stop-motion-engine"
-version = "0.1.0"
-description = "Compose stop-motion and reverse-engineer motion cells from video."
+version = "0.2.0"
+description = "Local-first stop-motion and performance-to-film engine: motion cells, pose/expression transfer, frame rendering adapters and interpolation."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "sophiamaybea" }]
 dependencies = ["numpy>=1.24", "pillow>=10.0"]
 
+[project.optional-dependencies]
+performance = ["mediapipe>=0.10.14"]
+mcp = ["mcp>=1.0.0"]
+dev = ["pytest>=8"]
+
 [project.scripts]
 stop-motion-engine = "stop_motion_engine.cli:main"
+performance-film = "stop_motion_engine.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]

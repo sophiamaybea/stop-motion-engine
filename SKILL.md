@@ -1,38 +1,53 @@
 ---
-name: stop-motion-engine
-description: Bidirectional stop-motion engine. Compose discrete stills into a clip, or reverse-engineer any video into motion cells (holds and ticks) and MOTION_SCORE.json. Triggers include stop motion, stop-motion, create stop motion, understand stop motion, reverse engineer motion, motion cells from video, onion skin, MOTION_SCORE.
+name: performance-film
+aliases: [stop-motion-engine]
+description: Local-first performance-to-film engine. Reverse-engineers video into motion cells, adaptive choreography keyframes, body/hand pose and facial performance; retargets proportions; orchestrates frame-by-frame rendering; composes stop motion; optionally interpolates to continuous film.
 metadata:
   type: workflow
-  version: "0.1.0"
-  department: Engineering
-  desk_role: hand
-  principal: engineering-technology
-  os: universal-living-genius-os
+  version: "0.2.0"
+  department: Performance / Film
   github: https://github.com/sophiamaybea/stop-motion-engine
 ---
 
-## OS gate
+# Performance Film
 
-Desk: Engineering. Role: hand. Principal: `engineering-technology`. Frame through Universal Living Genius OS. Body joints stay with `youtube-joint-frame-analyzer`. Pictures of the user stay with `looks-like-me`. Music stays in the Record Room. Do not spawn a sibling skill from inside this file.
+Use this skill when a reference performance must become an editable stop-motion sequence or be transferred to a target identity.
 
-# Stop Motion Engine
+## Governing rule
 
-One unit both ways. A **cell** is a hold punctuated by a tick. Forward you choose the ticks. Reverse you find them.
+**Measure first. Retarget second. Generate third. Interpolate last.**
 
-## When to activate
+Never ask a generative video model to infer a complex dance when the geometry and timing can be measured from the source video.
 
-- Create a stop-motion clip from a folder of stills
-- Recover the discrete drawings that would have made a video
-- Understand motion in a video as stepped picture-change, not as pose
-- Produce `MOTION_SCORE.json` for another agent
-- Onion-skin a sequence
+## State separation
 
-Do not activate for Mixamo/SMPL joint timelines. That is Stage.
+Keep three independent layers:
 
-## Commands
+- **Identity**: stable facial structure, body proportions, hair, outfit and accessories.
+- **Scene**: stable camera, lens, environment and lighting.
+- **Performance**: body/hands/head, gaze, facial blendshapes, timing and movement events.
 
-```bash
-PYTHONPATH=src python -m stop_motion_engine compose FRAMES_DIR -o out/film.mp4 --fps 12 --onion out/onion.jpg
-PYTHONPATH=src python -m stop_motion_engine reverse VIDEO.mp4 -o out/reverse
-PYTHONPATH=src python -m stop_motion_engine demo -o out/demo
-```
+A render should normally alter Performance only.
+
+## Preferred workflow
+
+1. `performance-film project-init PROJECT --source SOURCE`
+2. `performance-film analyse-performance SOURCE -o PROJECT ...`
+3. Inspect `analysis/PERFORMANCE.json` and `analysis/KEYFRAMES.json`.
+4. Retarget geometry to the target skeleton rather than copying the source dancer's proportions.
+5. Render local stills via ComfyUI one constrained performance frame at a time.
+6. Reject or repair individual frames instead of regenerating the full sequence.
+7. `performance-film assemble ...` for true stop motion.
+8. Optionally `performance-film smooth ...` with Practical-RIFE.
+
+## Facial performance
+
+Do not replace expression with labels such as happy, sad or sexy. Preserve measured landmarks, head pose, gaze and blendshape coefficients from the source and apply those dynamics to the target identity.
+
+## MCP
+
+Run `performance-film serve-mcp`. Expensive frame/video operations remain local; Work, Grok or another agent should orchestrate tools rather than ingesting every frame.
+
+## Third-party rule
+
+External repositories are engines, not source to paste into this repo. Keep them behind adapters and respect their licences. Never copy proprietary reference implementations into this project.

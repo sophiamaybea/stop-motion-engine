@@ -42,3 +42,31 @@ url = "https://ffmpeg.org/"
 role = "decode and encode"
 bundled = false
 license = "see upstream build configuration"
+
+[ipadapter_plus]
+url = "https://github.com/cubiq/ComfyUI_IPAdapter_plus"
+role = "appearance consistency between generated frames"
+bundled = false
+license = "verify upstream at selected revision"
+
+[instantid]
+url = "https://github.com/instantX-research/InstantID"
+role = "identity lock for the target dancer"
+bundled = false
+license = "verify upstream at selected revision"
+
+# Sister modules — consume, do not vendor.
+
+[contemporary_studio_dance]
+url = "https://github.com/sophiamaybea/contemporary-studio-dance"
+role = "movement vocabulary, kinematics, style critic"
+bundled = false
+license = "verify in that repo"
+
+# Architecture references only. Do not copy source.
+
+[framefold]
+url = "https://github.com/RainerBracharz/framefold"
+role = "study-only pipeline shape: sample, score, rest-detect, filter, dedupe, review, stabilize, assemble"
+bundled = false
+license = "not a reuse grant — architecture only"

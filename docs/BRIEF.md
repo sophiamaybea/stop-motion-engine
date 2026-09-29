@@ -134,3 +134,59 @@ Identity must not override pose accuracy. Both stay.
 Do not allow gradual change of facial structure, nose, eye shape, eye colour, body proportions, limb length, torso proportions, hair, or skin tone.
 
 Looks-like-me / locked identity stills are the identity source. This engine does not invent a new face.
+
+---
+
+## 7. Body proportions stay constant
+
+The person must not become shorter, wider, more muscular, or differently proportioned between frames.
+
+Maintain leg length, torso length, shoulder width, waist, hip width, arm length, hand size, and head-to-body ratio.
+
+Compare consecutive frames for anthropometric drift. Retarget source geometry onto the **target** skeleton. Never paste source limb lengths onto the locked body.
+
+---
+
+## 8. Clothing is a persistent object
+
+Track garment shape, fabric, seams, straps, waistband, sleeves, footwear, tights, warm-up layers, accessories, hair ties, jewellery.
+
+If a garment moves, it follows physics and body motion. Do not redesign the outfit between frames.
+
+---
+
+## 9. Feet and hands have their own validation
+
+Generative models fail here first. For dance, feet are load-bearing evidence.
+
+Check toe direction, ankle articulation, turnout, arch, pointe / demi-pointe, heel placement, floor contact, and the relationship between leg and foot.
+
+Pointe shoes must behave like pointe shoes. Preserve worn-in visual state when that is the source truth.
+
+---
+
+## 10. Camera is explicit
+
+Track height, distance, focal-length approximation, distortion, horizon, crop, rotation, perspective, and dancer position in frame.
+
+If the reference camera is locked, the virtual camera stays locked. The generator does not wander.
+
+---
+
+## 11. Mirrors obey geometry
+
+A studio mirror is not a second random human.
+
+The reflection has the mirrored pose, correct reflected position, identical clothing and timing, and preserved room geometry and lighting.
+
+Derive the reflection from the primary dancer and camera. Prefer constructing it separately rather than leaving it to the image model. See `references/dance/reference-01/MIRROR_REFLECTION_RULES.md`.
+
+---
+
+## 12. Environment lock
+
+The room does not mutate.
+
+Persist walls, floor, mirror, doors, windows, barre, furniture, lighting, architectural detail.
+
+Generate or reconstruct the background once, then composite the dancer into it. Do not regenerate the entire room every frame.

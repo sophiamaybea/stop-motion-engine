@@ -1,0 +1,22 @@
+name: Stop Motion Lab CI
+
+on:
+  push:
+    branches: ["build/stop-motion-lab-mvp"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install
+        run: pip install -e '.[lab,dev]'
+      - name: Test verification harness
+        run: pytest -q tests/test_lab.py

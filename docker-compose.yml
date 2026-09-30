@@ -1,0 +1,10 @@
+services:
+  stop-motion-lab:
+    build: .
+    ports:
+      - "7860:7860"
+    env_file:
+      - .env
+    volumes:
+      - ./projects:/app/projects
+      - ./outputs:/app/outputs

@@ -1,0 +1,21 @@
+00 0.00s wrap
+01 0.80s last hold
+02 1.00s unwind
+03 1.37s catch start
+04 2.00s attitude
+05 2.50s climb
+06 3.00s hand on foot
+07 3.50s rise
+08 4.00s pre-split
+09 4.20s split climb
+10 4.50s high V
+11 5.00s hold high
+12 5.50s hold
+13 6.00s hold
+14 6.50s prepare tilt
+15 7.00s side tilt
+16 8.00s tilt deepen
+17 9.00s tilt hold
+18 10.00s tilt hold
+19 10.50s last dance
+20 11.00s before logo

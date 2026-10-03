@@ -1,7 +1,7 @@
 [project]
 name = "stop-motion-engine"
-version = "0.2.0"
-description = "Local-first stop-motion and performance-to-film engine: motion cells, pose/expression transfer, frame rendering adapters and interpolation."
+version = "0.3.0"
+description = "Local-first stop-motion and performance-to-film engine with Stop Motion Lab verification harness."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -9,13 +9,15 @@ authors = [{ name = "sophiamaybea" }]
 dependencies = ["numpy>=1.24", "pillow>=10.0"]
 
 [project.optional-dependencies]
-performance = ["mediapipe>=0.10.14"]
+performance = ["mediapipe>=0.10.14; python_version < '3.13'"]
+lab = ["gradio>=5,<7", "mediapipe>=0.10.14; python_version < '3.13'"]
 mcp = ["mcp>=1.0.0"]
 dev = ["pytest>=8"]
 
 [project.scripts]
 stop-motion-engine = "stop_motion_engine.cli:main"
 performance-film = "stop_motion_engine.cli:main"
+stopmotion = "stop_motion_engine.lab_cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]
